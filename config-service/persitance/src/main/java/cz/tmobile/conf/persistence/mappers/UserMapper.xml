@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cz.tmobile.conf.persistence.mappers.UserMapper">
+
+	<resultMap id="userInfo" type="cz.tmobile.conf.api.data.UserInfo">
+		<constructor>
+			<idArg column="PERSONAL_ID" javaType="_long" />
+		</constructor>
+		<result column="USER_NAME" property="username" />
+		<result column="NAME" property="name" />
+		<result column="SURNAME" property="surname" />
+	</resultMap>
+
+	<resultMap id="user" type="cz.tmobile.conf.api.data.User" extends="userInfo">
+		<result column="AGE" property="age" />
+		<result column="VALID_FROM" property="validFrom" typeHandler="cz.tmobile.conf.persistence.typehandler.LocalDateTimeTypeHandler"/>
+		<association property="department" javaType="cz.tmobile.conf.api.data.Department">
+			<constructor>
+				<idArg column="DEPARTMENT_ID" javaType="_long"/>
+			</constructor>
+			<result column="DEPARTMENT_NAME" property="name"/>
+		</association>
+	</resultMap>
+
+	<select id="listUsers" resultMap="userInfo">
+		SELECT
+		<include refid="userInfoColumns" />
+		<![CDATA[
+		FROM
+			USERS u
+		]]>
+	</select>
+
+	<sql id="userInfoColumns">
+		<![CDATA[
+			u.PERSONAL_ID,
+			u.USER_NAME,
+			u.NAME,
+			u.SURNAME
+		]]>
+	</sql>
+
+	<sql id="userColumns">
+		<![CDATA[
+			u.AGE,
+			u.VALID_FROM,
+			d.DEPARTMENT_ID,
+			d.DEPARTMENT_NAME,
+		]]>
+		<include refid="userInfoColumns" />
+	</sql>
+
+	<select id="getUser" resultMap="user">
+		SELECT
+		<include refid="userColumns" />
+		<![CDATA[
+		FROM
+			USERS u
+				INNER JOIN
+			DEPARTMENTS d ON (u.DEPARTMENT_ID = d.DEPARTMENT_ID)
+		WHERE
+			u.PERSONAL_ID = #{personalId}
+		]]>
+	</select>
+
+
+</mapper>

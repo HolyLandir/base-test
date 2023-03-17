@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="base-table" author="Vaclavek">
+        <createTable tableName="DEPARTMENTS">
+            <column name="DEPARTMENT_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="DEPARTMENT_NAME" type="VARCHAR(255)" />
+        </createTable>
+
+        <createTable tableName="USERS">
+            <column name="PERSONAL_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USER_NAME" type="CHAR(10)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(50)" />
+            <column name="SURNAME" type="VARCHAR(50)" />
+            <column name="AGE" type="INT" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALID_FROM" type="TIMESTAMP" />
+            <column name="DEPARTMENT_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="values" author="Vaclavek">
+		<insert tableName="DEPARTMENTS">
+			<column name="DEPARTMENT_ID" value="1" />
+			<column name="DEPARTMENT_NAME" value="Computing" />
+		</insert>
+		<insert tableName="DEPARTMENTS">
+			<column name="DEPARTMENT_ID" value="2" />
+			<column name="DEPARTMENT_NAME" value="HR" />
+		</insert>
+		<insert tableName="USERS">
+			<column name="PERSONAL_ID" value="1" />
+			<column name="USER_NAME" value="VONSTORMBU" />
+			<column name="NAME" value="Buford" />
+			<column name="SURNAME" value="von Storm" />
+			<column name="AGE" value="9" />
+			<column name="VALID_FROM" valueDate="2020-01-01" />
+			<column name="DEPARTMENT_ID" value="1" />
+		</insert>
+		<insert tableName="USERS">
+			<column name="PERSONAL_ID" value="2" />
+			<column name="USER_NAME" value="HIRANSTACY" />
+			<column name="NAME" value="Stacy" />
+			<column name="SURNAME" value="Hiran" />
+			<column name="AGE" value="13" />
+			<column name="VALID_FROM" valueDate="2021-01-01" />
+			<column name="DEPARTMENT_ID" value="2" />
+		</insert>
+		<insert tableName="USERS">
+			<column name="PERSONAL_ID" value="3" />
+			<column name="USER_NAME" value="JOHNSONJER" />
+			<column name="NAME" value="Jeremy" />
+			<column name="SURNAME" value="Johnson" />
+			<column name="AGE" value="15" />
+			<column name="VALID_FROM" valueDate="2022-01-01" />
+			<column name="DEPARTMENT_ID" value="1" />
+		</insert>
+    </changeSet>
+</databaseChangeLog>
